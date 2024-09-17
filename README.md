@@ -57,7 +57,33 @@
   * Java </br>
   * Excel </br>
 
-Tecnologías utilizadas;
-Personas Contribuyentes;
-Personas Desarrolladoras del Proyecto;
-Licencia.
+## Contribuyentes
+
+  <h2 align="center"> Personas contribuyentes </h2>
+
+<div align="center">
+
+![yo (1)](https://github.com/user-attachments/assets/9e2027fe-c308-4783-b46f-c5f5cd950e4e)
+
+</div>
+ <div align= "center">Marcos Rama </div>
+
+## Desarrolladoras
+
+  <h2 align="center"> Personas Desarrolladoras del proyecto </h2>
+
+<div align="center">
+
+![yo (1)](https://github.com/user-attachments/assets/9e2027fe-c308-4783-b46f-c5f5cd950e4e)
+
+</div>
+ <div align= "center">Marcos Rama </div>
+
+## Licencia
+  <h2 align="center"> Licencia </h2>
+
+<div align="center">
+Todos los derechos sobre este proyecto están reservados
+</div>
+
+
