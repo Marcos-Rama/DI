@@ -48,7 +48,7 @@
   
   * HTML</br>
   * Java </br>
-  * Excel </br>
+  * Android Studio </br>
 
 ## Personas contribuyentes
 
