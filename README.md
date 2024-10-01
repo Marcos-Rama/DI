@@ -25,56 +25,44 @@
 ## Descripción 
 
 <h2 align="center">  Descripción del proyecto :speech_balloon: </h2>
-<p align="center"> Este es un repositorio creado para la asignatura de Desarollo de interfaces, estaremos trabajando sobre una empresa fictica</p>
+<p align="center"> Aplicación para android para aquellos que quiern buscar planes de ocio en su ciudad.</p>
 
 ## Funcionalidades
 
 :grey_exclamation: Funcionalidades del proyecto
 
-- `Romper`: romper objetos con límite de cantidad-
-- `Romperlo todo`: Destrucción de objetos sin límite- 
+- `Requisitos`: Introducir aquellos requisitos que buscas en tu plan, por ejemplo que sea en interiores o que sean gratuitos.
+- `Distancia`: Distancia que estás dispuesto a desplazarte para acceder al plan de ocio.
 
   ## Acceso
 
-  <h2 align="center"> Estado del permiso de acceso actual al proyecto </h2>
+  <h2 align="center">Acceso al proyecto</h2>
 
   <div align="center">
-    
-    ![200](https://github.com/user-attachments/assets/f3ba0396-726a-4f64-8263-801a6561d7d8)
+    No requiere la instalación de ningún programa previo.
+ Enlace de descarga de la aplicación: [Colocar-enlace-apk]
+ 
 </div>
 
   ## Tecnologías utilizadas
   
   * HTML</br>
   * Java </br>
-  * Excel </br>
+  * Android Studio </br>
 
 ## Personas contribuyentes
 
 
-
-<div align="center">
-
-![yo (1)](https://github.com/user-attachments/assets/9e2027fe-c308-4783-b46f-c5f5cd950e4e)
-
-</div>
- <div align= "center">Marcos Rama </div>
+ <div align= "center">Marcos Rama. </div>
+Dirección de correo electrónico: marcosficticio@noexiste.com
 
 ## Personas desarrolladoras
 
-
-
-<div align="center">
-
-![yo (1)](https://github.com/user-attachments/assets/9e2027fe-c308-4783-b46f-c5f5cd950e4e)
-
-</div>
  <div align= "center">Marcos Rama </div>
+Dirección de correo electrónico: marcosficticio@noexiste.com
 
 ## Licencia
 
 <div align="center">
-Todos los derechos sobre este proyecto están reservados
+Todos los derechos sobre este proyecto están reservados.
 </div>
-
-
