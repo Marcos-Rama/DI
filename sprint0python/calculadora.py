@@ -29,4 +29,3 @@ while True:
 
     if option == 'n' or option == 'N':
         break
-
