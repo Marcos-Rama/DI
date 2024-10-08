@@ -24,7 +24,7 @@ class Heroe:
         enemigo: objeto que le enviaremos desde la clase Mazmorra cuando empiece el programa
 
         Retorna:
-        Nada, solo muestra si se ha recibido daño o no.
+        Nada, solo muestra si se ha recibido daño o no y reduce la vida de ser así.
         """
         print(f"Héroe ataca a {enemigo.nombre_monstruo}.")
         hit = self.ataque_heroe - enemigo.defensa_monstruo
