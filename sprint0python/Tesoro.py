@@ -6,6 +6,14 @@ class Tesoro:
 
 
     def encontrar_tesoro(self, heroe):
+        """
+        Metodo que se ejecuta tras derrotar a un enemigo (en clase mazmorra) y le da al héroe una recompensa
+
+        heroe: objeto sobre el que se va a realizar el metodo
+
+        Retorna:
+        Nada, muestra por pantalla que recomensa obtiene (conseguida con un random) y aplica el beneficio.
+        """
 
         beneficio = random.choice(self.beneficios)
         print(f"Héroe ha encontrado un tesoro: {beneficio}.")
