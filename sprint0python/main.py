@@ -4,6 +4,7 @@ from Tesoro import Tesoro
 from Mazmorra import Mazmorra
 
 def main():
+    # Elegimos el nombre de nuestro personaje y creamos un objeto Heroe con ese dato.
     nombre_heroe =input("Introduce el nombre de tu héroe: ")
     heroe = Heroe(nombre_heroe)
 
@@ -12,4 +13,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main() #Esto inicia el juego

@@ -12,16 +12,17 @@ while True:
     option=int(input())
 
     if option == 1:
-        suma(n1,n2)
+        result = suma(n1,n2)
     elif option == 2:
-        resta(n1,n2)
+        result =resta(n1,n2)
     elif option == 3:
-        multiplication(n1,n2)
+        result =multiplication(n1,n2)
     elif option == 4:
-        division(n1,n2)
+        result =division(n1,n2)
     else:
-        print("Operacion erronea")
+        result =print("Operacion erronea")
 
+    print(f"El restulado es:")
 
     print("Quieres realizar otra operacion?")
     option=input()
