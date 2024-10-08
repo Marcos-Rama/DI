@@ -13,4 +13,8 @@ def main():
 
 
 if __name__ == "__main__":
+    """
+    Este if hace que lo que haya a continuación, en este caso main(), se ejecute solo si se inicia desde el archivo
+    llamado main.
+    """
     main() #Esto inicia el juego
