@@ -31,6 +31,7 @@ class Mazmorra:
         miso "activo".
         Tesoro: Para buscar un premio si el héroe gana el combate.
         Héroe: Será el que realice las acciones junto a monstruo, y se debe comprobar su estado (vida).
+
         """
         print("Héroe entra en la mazmorra.")
         for monstruo in self.monstruos:
