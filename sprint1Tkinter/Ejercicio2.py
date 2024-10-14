@@ -10,7 +10,7 @@ def mostar_mensaje():
 def cerrar_ventana():
     """
     Metodo que ejecuta el quit, que sirve para cerrar la ventana
-    
+
     """
     root.quit()
 
