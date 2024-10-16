@@ -26,7 +26,7 @@ for fruta in frutas:
     listbox.insert(tk.END, fruta)
 listbox.pack()
 
-#Botón para cambiar el estado de la lista y que muestre que hemos elegido
+#Botón para cambiar el estado de la label y que muestre que hemos elegido
 boton = tk.Button(root, text="Mostrar elegido", command=mostrar_fruta)
 boton.pack()
 
