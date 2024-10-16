@@ -7,7 +7,6 @@ def mostrar_entry():
     """
     option = entry.get()
     label2.config(text=option)
-    pass
 
 def borrar_entry():
     """
@@ -16,7 +15,7 @@ def borrar_entry():
     """
     entry.delete(0,tk.END) #Borra el entry desde la posicion 0 hasta el final que sea
     label2.config(text="Pendiente")
-    pass
+
 
 root = tk.Tk() #Creación de la ventana
 root.title("Ejercicio 7") #Titutlo de la ventana
