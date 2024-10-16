@@ -17,7 +17,7 @@ root.title("Ejercicio 5") #Asignamos un título a la ventana
 root.geometry("300x200") #Establecemos un tamaño a la ventana
 
 var_radio = tk.StringVar() #Creamos variable para utilizar en el radio button y guardar el valor
-var_radio.set(None) #Elige una opción del radiobutton que vendrá marcada por defecto, uso None para que no hay ninguna
+var_radio.set("None") #Elige una opción del radiobutton que vendrá marcada por defecto, uso None para que no hay ninguna
 
 #Creación de los radio button, con sus textos y valores correspondientes, así como un command que llame al cambio color
 radio1 = tk.Radiobutton(root, text="Rojo", variable=var_radio, value="Rojo", command=cambio_color)

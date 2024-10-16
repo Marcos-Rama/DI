@@ -45,8 +45,8 @@ root = tk.Tk() #Creación de la ventana
 root.title("Ejercicio 12. Registro de usuario") #Titutlo de la ventana
 root.geometry("500x400") #Tamaño de la ventana
 
-#Creación de la lista
-lista=[]
+#Creación de la lista con unos valores ya iniciados en este caso
+lista=["Nombre: Marcos Edad: 30 Sexo: Masculino","Nombre: Ana Edad: 28 Sexo: Femenino"]
 
 #Etiqueta de instrucción
 label1=tk.Label(root,text="Nombre de usuario")
@@ -62,7 +62,7 @@ scale = tk.Scale(root, from_=0, to=100, orient='horizontal', command=change_labe
 scale.pack()
 
 var_radio = tk.StringVar() #Creamos variable para utilizar en el radio button y guardar el valor
-var_radio.set(None) #Elige una opción del radiobutton que vendrá marcada por defecto, uso None para que no hay ninguna
+var_radio.set("None") #Elige una opción del radiobutton que vendrá marcada por defecto, uso None para que no hay ninguna
 
 #Creación de los radiobutton, con sus textos y valores correspondientes
 radio1 = tk.Radiobutton(root, text="Masculino", variable=var_radio, value="Masculino")
