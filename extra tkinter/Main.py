@@ -36,19 +36,16 @@ def un_jugador():
     label2=tk.Label(v_uno,text="Opción Máquina")
     label2.place(x= 150, y= 50)
 
-
-    boton1 = tk.Button(v_uno, text="Iniciar ronda", command= lambda: resultado(jugador1.get(),comodin))
+    #Botón para iniciar el proceso del juego(comparativa de resultados) uso random ya que es juego contra maquina
+    boton1 = tk.Button(v_uno, text="Iniciar ronda", command= lambda: resultado(jugador1.get(),random.choice(lista)))
     boton1.pack()
 
-    label3 = tk.Label(v_uno, text="Resultado")
-    label3.place(x = 75,y = 150)
-
-
-
 def dos_jugadores():
+    #Creación y definición de la ventana de juego multijugador
     v_dos = tk.Toplevel(root)
     v_dos.title('Multiplayer')
     v_dos.geometry("300x200")
+
     label1=tk.Label(v_dos,text="Partida de dos jugadores")
     label1.pack()
     # Opcion y texto indicando que es el lado del jugador 1
@@ -62,20 +59,19 @@ def dos_jugadores():
     label2.place(x=150, y=50)
     jugador2 = tk.Entry(v_dos, width=7)
     jugador2.place(x=150, y=70)
-
+    #Botón para iniciar el proceso del juego(comparativa de resultados)
     boton1 = tk.Button(v_dos, text="Iniciar ronda", command=lambda: resultado(jugador1.get(), jugador2.get()))
     boton1.pack()
 
 
 def resultado(choice1, choice2):
+    #Uso de variables globales para almacenar los valores
     global victorias1
     global victorias2
     choice1 = choice1.lower()
-    choice2 = random.choice(lista).lower()
+    choice2 = choice2.lower()
 
-    print(choice1)
-    print(choice2)
-
+    #Lógica de las comparativas para definir quien gana
     if choice1 == "papel" and choice2 == "tijeras":
         messagebox.showinfo("Resultado ronda", "El jugador uno saca papel, "
                                                "el jugador dos saca tijera. Gana el jugador dos, "
@@ -109,9 +105,8 @@ def resultado(choice1, choice2):
         victorias1 += 1
     else:
         messagebox.showinfo("Resultado ronda", "Empate, esta ronda no cuenta")
-    print(victorias1, " Uno")
-    print(victorias2, " Dos")
 
+    #Ifs para, si se alcanzó la puntuación máxima indicar ganador y cerrar el programa
     if victorias1 == 3:
         messagebox.showinfo("Resultado ronda", "Uno gana")
         victorias1 =0
