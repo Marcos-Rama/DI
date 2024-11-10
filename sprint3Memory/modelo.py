@@ -5,6 +5,9 @@ from datetime import datetime
 from recursos import descargar_imagen
 
 class GameModel:
+
+    imagen_hidden = None
+
     def __init__(self):
     #Inicia el modelo, establece el tamaño del tablero según la dificultad.
     #¿¿¿¿Llama a _generate_board() para crear la estructura del tablero y a _load_images() para cargar las imágenes en segundo plano???
@@ -31,13 +34,16 @@ class GameModel:
         #inicia hilo para descargar y cargar imágenes mediante una URL base. La imagen oculta se asigna a hidden_image y
         #cada identificador de carta se asigna a una imagen descargada específica.
         def load_images_thread():
-            url = 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/fototkinter.jpg'
-            hidden_image_url = "https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/fototkinter.jpg"
-            self.images['hidden'] = descargar_imagen(100, hidden_image_url)  # Imagen oculta
+            url = 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta1.jpg'
+            url2 = "https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta2.jpg"
+            #self.imagen_hidden = descargar_imagen(100, hidden_image_url)  # Imagen oculta
 
             for card_id in range((len(self.board) * len(self.board[0])) // 2):
                 image_url = url
-                self.images[card_id] = descargar_imagen(100, image_url)
+                self.images[card_id] = descargar_imagen(65, image_url)
+                image2_url = url2
+                self.images[card_id] = descargar_imagen(65, image2_url)
+
 
             # Todas las imágenes se han descargado, activar el evento
             self.images_are_loaded.set()

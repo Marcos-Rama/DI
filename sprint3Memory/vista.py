@@ -19,7 +19,7 @@ class GameView(Toplevel):
     #Crea la ventana del juego como instancia TopLevel, con su título y usando el modelo para definir tamaño y contenido
     #Genera un tablero de Labels en función del tamaño, cada una será una imagen oculta, se organizan en cuadrícula y vinculadas a eventos de click que llaman al callback "on_card_click_callback"
     #Añadir etiquetas para contador de movimientos y temporizador
-        size = model.board_size
+
         for i, row in enumerate(model.board):
             for j, card in enumerate(row):
                 lbl = Label(self, text="*", width=8, height=4, relief="raised", bg="grey")
@@ -32,11 +32,11 @@ class GameView(Toplevel):
         #Actualiza la imagen de una carta en una posición concreta (pos), configurando la imagen que corresponda según el image_id que tenga
         row, col = pos
         label = self.labels[(row, col)]  # Obtener la etiqueta de la carta
-        label.config(image=image)  # Actualizar la imagen
+        label.config(image=image, width=80, heigh= 50)  # Actualizar la imagen
         label.image = image  #Mantener una referencia de la imagen
 
     def delay (self, pos1, pos2):
-        hidden_image = self.model.images['hidden']
+        hidden_image = self.model.imagen_hidden
         self.after(500, lambda: self.reset_cards(pos1, pos2, hidden_image))
 
     def reset_cards(self, pos1, pos2):
@@ -45,12 +45,12 @@ class GameView(Toplevel):
         label2 = self.labels[pos2]
 
         # Restaurar las cartas al estado oculto
-        label1.config(image=self.model.images['hidden'])
-        label2.config(image=self.model.images['hidden'])
+        label1.config(image=self.model.imagen_hidden)
+        label2.config(image=self.model.imagen_hidden)
 
         # Mantener las referencias para evitar que las imágenes sean recolectadas
-        label1.image = self.model.images['hidden']
-        label2.image = self.model.images['hidden']
+        label1.image = self.model.imagen_hidden
+        label2.image = self.model.imagen_hidden
 
     def update_move_count(self,moves):
         #Actualiza el contador de movimientos en la interfaz, modificando el texto de la label que muestra los mov. actuales
@@ -74,8 +74,6 @@ class MainMenu:
         (tk.Button(self.window, text="Estadisticas", command=show_stats_callback).pack(pady=10))
         (tk.Button(self.window, text="Salir", command=quit_callback).pack(pady=10))
 
-    def ask_player_name(self):
-        player_name = simpledialog.askstring("Nombre", "¿Cuál es tu nombre?")
 
     #Esta función deberá abrir una ventana TopLevel que muestre las etadísticas de los jugadores (puntuaciones organizadas por nivel de dificultad) y muestra nombre-movimientos
 
