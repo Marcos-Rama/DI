@@ -13,17 +13,36 @@ class GameModel:
         self.player_name = ""
         self.moves = 0 #Contador de movimientos
         self.start_time = 0 #Temporizador de partida
+        self.images = {}  # Almacena las imágenes descargadas
+        self.images_are_loaded = threading.Event()
 
     def _generate_board(self,difficulty):
-        #Genera el tablero del juegocreando un conjunto de pares de identificadores de imágenes y los mezcla aleatoriamente
-        pass
+        if difficulty == "facil":
+            self.board_size = 4
+        elif difficulty == "medio":
+            self.board_size = 6
+        elif difficulty == "dificil":
+            self.board_size = 8
+        num_pairs = (self.board_size ** 2) // 2
+        card_ids = list(range(num_pairs)) * 2
+        self.board = [card_ids[i:i + self.board_size] for i in range(0, len(card_ids), self.board_size)]
 
     def _load_images(self):
         #inicia hilo para descargar y cargar imágenes mediante una URL base. La imagen oculta se asigna a hidden_image y
         #cada identificador de carta se asigna a una imagen descargada específica.
-        #url = 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/fototkinter.jpg'
-        #hilo = threading.Thread(target= self.descargar_imagen, args=(url, 150))
-        #hilo.start()
+        def load_images_thread():
+            url = 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/fototkinter.jpg'
+            hidden_image_url = "https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/fototkinter.jpg"
+            self.images['hidden'] = descargar_imagen(100, hidden_image_url)  # Imagen oculta
+
+            for card_id in range((len(self.board) * len(self.board[0])) // 2):
+                image_url = url
+                self.images[card_id] = descargar_imagen(100, image_url)
+
+            # Todas las imágenes se han descargado, activar el evento
+            self.images_are_loaded.set()
+
+        threading.Thread(target=load_images_thread).start()
         pass
 
     def images_are_loaded(self):
