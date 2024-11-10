@@ -2,6 +2,8 @@ import threading
 import time
 import random
 from datetime import datetime
+from email.contentmanager import raw_data_manager
+
 from recursos import descargar_imagen
 
 class GameModel:
@@ -28,22 +30,42 @@ class GameModel:
             self.board_size = 8
         num_pairs = (self.board_size ** 2) // 2
         card_ids = list(range(num_pairs)) * 2
+        random.shuffle(card_ids)
         self.board = [card_ids[i:i + self.board_size] for i in range(0, len(card_ids), self.board_size)]
 
     def _load_images(self):
         #inicia hilo para descargar y cargar imágenes mediante una URL base. La imagen oculta se asigna a hidden_image y
         #cada identificador de carta se asigna a una imagen descargada específica.
         def load_images_thread():
-            url = 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta1.jpg'
-            url2 = "https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta2.jpg"
+            urls = [
+                'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta1.jpg',
+                'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta2.jpg',
+                # 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta3.jpg',
+                # 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta4.jpg',
+            ]
             #self.imagen_hidden = descargar_imagen(100, hidden_image_url)  # Imagen oculta
+            images_download = []
+            total_items_to_duplicate = int((self.board_size * self.board_size) / len(urls))
+            for count, url in enumerate(urls):
+                print('url', url)
+                downloaded_image = descargar_imagen(65, url)
+                images_download += [(count, downloaded_image)] * total_items_to_duplicate
 
-            for card_id in range((len(self.board) * len(self.board[0])) // 2):
-                image_url = url
-                self.images[card_id] = descargar_imagen(65, image_url)
-                image2_url = url2
-                self.images[card_id] = descargar_imagen(65, image2_url)
-
+            len_board = self.board_size * self.board_size
+            banned_positions = []
+            for image in images_download:
+                print(' Image ')
+                random_position = None
+                while random_position is None:
+                    random_position = random.randint(0, (len_board-1))
+                    print(' pos:', random_position)
+                    if random_position in banned_positions:
+                        print('\t - banned')
+                        random_position = None
+                        continue
+                    banned_positions += [random_position]
+                self.images[random_position] = image
+            print(self.images)
 
             # Todas las imágenes se han descargado, activar el evento
             self.images_are_loaded.set()
@@ -61,10 +83,12 @@ class GameModel:
     def get_time(self):
         #calcula y devuelve el timepo en segundos desde el inicio del temporizador
         pass
-    def check_match(self, pos1, pos2):
+    def check_match(self, id_image1, id_image2):
         #Aumenta el contador de movimientos y verifica si 2 posiciones del tablero contienen la misma imagen (coinciden).
         #Si encuentran imagenes coincidentes se incrementa el contador pairs_found
-        pass
+        print(f'Is same card? {id_image1}, {id_image2} ----- {id_image1 == id_image2}')
+        return id_image1 == id_image2
+
     def is_game_complete(self):
         #Verifica si se han encontrado todas las parejas del tablero. Si el número de parejas encontradas es igual a la mitad del tamaño total del tablero, juego terminado
         pass

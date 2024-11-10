@@ -73,31 +73,26 @@ class GameController:
         row, col = pos
         card_id = self.model.board[row][col]
 
-        image = self.model.images[card_id]  # Obtener la imagen correspondiente
+        id_image, image = self.model.images[card_id]  # Obtener la imagen correspondiente
         self.view.update_board(pos, image)  #Actualizar la vista de la carta
 
+        self.selected += [(id_image, pos)]
+        if len(self.selected) == 2:
+            self.handle_card_selection()
         print(f"Carta clic: {pos}")
+        print(card_id)
 
     def handle_card_selection(self):
         #Verifica si 2 cartas forman pareja mediante metodo check_match del modelo, si coinciden mentiene la visualización de ambas, sino las oculta tras un breve tiempo
         #Actualzia el contador de movimientos en interfaz y llama a check_game_complete para comprobar si ha terminado el juego
-        pos1, pos2 = self.selected
-        row1, col1 = pos1
-        row2, col2 = pos2
-
-        card1_id = self.model.board[row1][col1]
-        card2_id = self.model.board[row2][col2]
-
-        if card1_id == card2_id:
-            # Si coinciden, mantener las imágenes
-            self.selected = []
-            self.check_game_complete()
-        else:
-            # Si no coinciden, ocultar las cartas de nuevo
+        selection1, selection2 = self.selected
+        id_image1, pos1 = selection1
+        id_image2, pos2 = selection2
+        is_same_card = self.model.check_match(id_image1, id_image2)
+        if not is_same_card:
+            print('Is not the same card')
             self.view.reset_cards(pos1, pos2)
-            self.selected = []
-            self.update_move_count(self.model.moves)
-        pass
+        self.selected = []
 
     def update_move_count(self,moves):
         #Actualiza el contador de movimientos en GameView par reflejar número actual de movimientos

@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import simpledialog, Toplevel, Label
 
 from modelo import GameModel
+from recursos import descargar_imagen
 
 
 class GameView(Toplevel):
@@ -14,12 +15,13 @@ class GameView(Toplevel):
         self.on_card_click_callback =on_card_click_callback
         self.update_move_count_callback = update_move_count_callback
         self.update_time_callback = update_time_callback
+        self.hidden_image = descargar_imagen(65, "https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta3.jpg")
 
     def create_board(self,model):
     #Crea la ventana del juego como instancia TopLevel, con su título y usando el modelo para definir tamaño y contenido
     #Genera un tablero de Labels en función del tamaño, cada una será una imagen oculta, se organizan en cuadrícula y vinculadas a eventos de click que llaman al callback "on_card_click_callback"
     #Añadir etiquetas para contador de movimientos y temporizador
-
+        print("Haciendo tablero")
         for i, row in enumerate(model.board):
             for j, card in enumerate(row):
                 lbl = Label(self, text="*", width=8, height=4, relief="raised", bg="grey")
@@ -37,20 +39,23 @@ class GameView(Toplevel):
 
     def delay (self, pos1, pos2):
         hidden_image = self.model.imagen_hidden
-        self.after(500, lambda: self.reset_cards(pos1, pos2, hidden_image))
+        self.after(500, lambda: self.reset_cards(pos1, pos2))
 
     def reset_cards(self, pos1, pos2):
         # Obtener las etiquetas de las cartas
+        print('RESET CARDS')
+        # self.delay(pos1, pos2)
         label1 = self.labels[pos1]
         label2 = self.labels[pos2]
 
+
         # Restaurar las cartas al estado oculto
-        label1.config(image=self.model.imagen_hidden)
-        label2.config(image=self.model.imagen_hidden)
+        label1.config(image=None)
+        label2.config(image=None)
 
         # Mantener las referencias para evitar que las imágenes sean recolectadas
-        label1.image = self.model.imagen_hidden
-        label2.image = self.model.imagen_hidden
+        label1.image = None
+        label2.image = None
 
     def update_move_count(self,moves):
         #Actualiza el contador de movimientos en la interfaz, modificando el texto de la label que muestra los mov. actuales
