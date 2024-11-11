@@ -69,8 +69,10 @@ class GameView(Toplevel):
         self.move_count_label.config(text=f"Movimientos: {moves}")
         pass
 
-    def update_time(self, time):
+    def update_time(self, time_elapsed):
         #Actualiza el temporizador de la interfaz para reflejar el tiempo pasado
+        self.time_label.config(text=f"Tiempo: {time_elapsed}s")
+        print("Tiempo vista update_time: ", time_elapsed)
         pass
 
     def destroy(self):

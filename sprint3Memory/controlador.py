@@ -39,6 +39,7 @@ class GameController:
 
         # Iniciar la verificación de la carga de imágenes
         self.check_images_loaded()
+
         pass
 
     def show_loading_window(self, message):
@@ -65,6 +66,8 @@ class GameController:
         #Maneja evento de clic en una carta, si el temporizador no ha compezado, lo inicia y actualiza el temporizador en interfaz
         #Almacena la posición de la carta clicada y, si hay dos cargas en self.selected, llama a handle_card_selection para verificar si coinciden
         #Si el timer parado empiezalo
+
+
         if not self.timer_started:
             self.timer_started = True
             self.model.start_timer()
@@ -79,6 +82,7 @@ class GameController:
         self.selected += [(id_image, pos)]
         if len(self.selected) == 2:
             self.handle_card_selection()
+        self.update_time()
         print(f"Carta clic: {pos}")
         print(card_id)
 
@@ -113,6 +117,11 @@ class GameController:
         #Obtiene estadísitcas de puntuaciones desde el modelo y las muestra en el menú principal
         pass
 
-    def update_time(self,time_el):
+    def update_time(self):
         #Actualiza el temporizador de la vista del juego. Se llama a sí misma cada segundo mientras el juego esté activo
+        time_elapsed = self.model.get_time()
+        self.view.update_time(time_elapsed)
+        # Llama a `update_time` cada segundo mientras el juego esté activo
+
+        self.root.after(1000, self.update_time)
         pass

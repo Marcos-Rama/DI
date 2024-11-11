@@ -41,7 +41,7 @@ class GameModel:
             urls = [
                 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta1.jpg',
                 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta2.jpg',
-                # 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta3.jpg',
+                 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta5.png',
                  'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta4.jpg',
             ]
             url_hidden = 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta3.jpg'
@@ -82,12 +82,16 @@ class GameModel:
 
     def start_timer(self):
         #Reinicia el tiempo de inicio del juego para el temporizador, permitiendo un registro del tiempo
+        self.start_time = time.time()
+        print("Tiempo starteado")
         pass
 
 
     def get_time(self):
         #calcula y devuelve el timepo en segundos desde el inicio del temporizador
-        pass
+        print("Tiempo en get_time(modelo)", str(int(time.time() - self.start_time)))
+        elapsed_time = int(time.time() - self.start_time)  # Devuelve el tiempo en segundos
+        return elapsed_time
 
     def check_match(self, id_image1, id_image2):
         #Aumenta el contador de movimientos y verifica si 2 posiciones del tablero contienen la misma imagen (coinciden).
