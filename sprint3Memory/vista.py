@@ -18,6 +18,11 @@ class GameView(Toplevel):
         self.update_move_count_callback = update_move_count_callback
         self.update_time_callback = update_time_callback
         self.hidden_image = descargar_imagen(65, "https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta3.jpg")
+        self.move_count_label = tk.Label(self, text="Movimientos: 0")
+        self.move_count_label.grid(row=0, column=0, columnspan=2, sticky="w")
+
+        self.time_label = tk.Label(self, text="Tiempo: 0s")
+        self.time_label.grid(row=0, column=2, columnspan=2, sticky="e")
 
     def create_board(self,model):
     #Crea la ventana del juego como instancia TopLevel, con su título y usando el modelo para definir tamaño y contenido
@@ -61,6 +66,7 @@ class GameView(Toplevel):
     def update_move_count(self,moves):
         #Actualiza el contador de movimientos en la interfaz, modificando el texto de la label que muestra los mov. actuales
         print("Movimientos", moves)
+        self.move_count_label.config(text=f"Movimientos: {moves}")
         pass
 
     def update_time(self, time):
