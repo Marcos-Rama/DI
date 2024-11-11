@@ -54,8 +54,8 @@ class GameView(Toplevel):
         label2.config(image=self.hidden_image)
 
         # Mantener las referencias para evitar que las imágenes sean recolectadas
-        label1.image = None
-        label2.image = None
+        label1.image = self.hidden_image
+        label2.image = self.hidden_image
 
     def update_move_count(self,moves):
         #Actualiza el contador de movimientos en la interfaz, modificando el texto de la label que muestra los mov. actuales

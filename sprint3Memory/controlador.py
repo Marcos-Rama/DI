@@ -91,7 +91,7 @@ class GameController:
         is_same_card = self.model.check_match(id_image1, id_image2)
         if not is_same_card:
             print('Is not the same card')
-            self.view.reset_cards(pos1, pos2)
+            self.view.delay(pos1, pos2)
         self.selected = []
 
     def update_move_count(self,moves):
