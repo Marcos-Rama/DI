@@ -92,10 +92,13 @@ class GameController:
         if not is_same_card:
             print('Is not the same card')
             self.view.delay(pos1, pos2)
+        self.update_move_count()
         self.selected = []
 
-    def update_move_count(self,moves):
+    def update_move_count(self):
         #Actualiza el contador de movimientos en GameView par reflejar número actual de movimientos
+        self.view.moves += 1
+        self.view.update_move_count(self.view.moves)
         pass
 
     def check_game_complete(self):
@@ -110,7 +113,6 @@ class GameController:
         #Obtiene estadísitcas de puntuaciones desde el modelo y las muestra en el menú principal
         pass
 
-    def update_time(self):
+    def update_time(self,time_el):
         #Actualiza el temporizador de la vista del juego. Se llama a sí misma cada segundo mientras el juego esté activo
         pass
-

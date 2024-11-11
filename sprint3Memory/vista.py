@@ -9,6 +9,7 @@ from recursos import descargar_imagen
 class GameView(Toplevel):
     def __init__(self, on_card_click_callback, update_move_count_callback, update_time_callback):
         super().__init__()
+        self.moves = 0
         self.window = None
         self.model = GameModel
         self.labels = {} #Almacenará las etiquetas de las cartas, representadas por label, cada posición será una label
@@ -26,7 +27,7 @@ class GameView(Toplevel):
         for i, row in enumerate(model.board):
             for j, card in enumerate(row):
                 lbl = Label(self, text="*", width=65, height=75,image=model.imagen_hidden , relief="raised", bg="grey")
-                lbl.grid(row=i,column = j)
+                lbl.grid(row=i+1,column = j)
                 self.labels[(i,j)] = lbl
                 lbl.bind("<Button-1>", lambda event, pos=(i,j): self.on_card_click_callback(event,pos))
 
@@ -59,6 +60,7 @@ class GameView(Toplevel):
 
     def update_move_count(self,moves):
         #Actualiza el contador de movimientos en la interfaz, modificando el texto de la label que muestra los mov. actuales
+        print("Movimientos", moves)
         pass
 
     def update_time(self, time):

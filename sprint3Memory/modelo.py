@@ -15,6 +15,7 @@ class GameModel:
         self.board = []
         self.difficulty = None
         self.player_name = ""
+
         self.moves = 0 #Contador de movimientos
         self.start_time = 0 #Temporizador de partida
         self.images = {}  # Almacena las imágenes descargadas
@@ -41,7 +42,7 @@ class GameModel:
                 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta1.jpg',
                 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta2.jpg',
                 # 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta3.jpg',
-                # 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta4.jpg',
+                 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta4.jpg',
             ]
             url_hidden = 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta3.jpg'
             #self.imagen_hidden = descargar_imagen(100, hidden_image_url)  # Imagen oculta
@@ -82,6 +83,8 @@ class GameModel:
     def start_timer(self):
         #Reinicia el tiempo de inicio del juego para el temporizador, permitiendo un registro del tiempo
         pass
+
+
     def get_time(self):
         #calcula y devuelve el timepo en segundos desde el inicio del temporizador
         pass
