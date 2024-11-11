@@ -1,3 +1,4 @@
+import time
 import tkinter as tk
 from tkinter import simpledialog, Toplevel, Label
 
@@ -24,7 +25,7 @@ class GameView(Toplevel):
         print("Haciendo tablero")
         for i, row in enumerate(model.board):
             for j, card in enumerate(row):
-                lbl = Label(self, text="*", width=8, height=4, relief="raised", bg="grey")
+                lbl = Label(self, text="*", width=65, height=75,image=model.imagen_hidden , relief="raised", bg="grey")
                 lbl.grid(row=i,column = j)
                 self.labels[(i,j)] = lbl
                 lbl.bind("<Button-1>", lambda event, pos=(i,j): self.on_card_click_callback(event,pos))
@@ -37,21 +38,20 @@ class GameView(Toplevel):
         label.config(image=image, width=80, heigh= 50)  # Actualizar la imagen
         label.image = image  #Mantener una referencia de la imagen
 
-    def delay (self, pos1, pos2):
-        hidden_image = self.model.imagen_hidden
-        self.after(500, lambda: self.reset_cards(pos1, pos2))
+    def delay(self, pos1, pos2):
+        self.after(1000, lambda: self.reset_cards(pos1, pos2))
 
     def reset_cards(self, pos1, pos2):
         # Obtener las etiquetas de las cartas
+
         print('RESET CARDS')
         # self.delay(pos1, pos2)
         label1 = self.labels[pos1]
         label2 = self.labels[pos2]
 
-
         # Restaurar las cartas al estado oculto
-        label1.config(image=None)
-        label2.config(image=None)
+        label1.config(image=self.hidden_image)
+        label2.config(image=self.hidden_image)
 
         # Mantener las referencias para evitar que las imágenes sean recolectadas
         label1.image = None

@@ -1,3 +1,4 @@
+import time
 import tkinter as tk
 from tkinter import messagebox, simpledialog, Toplevel, Label
 from modelo import GameModel
@@ -63,7 +64,6 @@ class GameController:
     def on_card_click(self,event, pos):
         #Maneja evento de clic en una carta, si el temporizador no ha compezado, lo inicia y actualiza el temporizador en interfaz
         #Almacena la posición de la carta clicada y, si hay dos cargas en self.selected, llama a handle_card_selection para verificar si coinciden
-
         #Si el timer parado empiezalo
         if not self.timer_started:
             self.timer_started = True

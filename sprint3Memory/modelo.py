@@ -8,7 +8,6 @@ from recursos import descargar_imagen
 
 class GameModel:
 
-    imagen_hidden = None
 
     def __init__(self):
     #Inicia el modelo, establece el tamaño del tablero según la dificultad.
@@ -20,6 +19,7 @@ class GameModel:
         self.start_time = 0 #Temporizador de partida
         self.images = {}  # Almacena las imágenes descargadas
         self.images_are_loaded = threading.Event()
+        self.imagen_hidden = None
 
     def _generate_board(self,difficulty):
         if difficulty == "facil":
@@ -43,6 +43,7 @@ class GameModel:
                 # 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta3.jpg',
                 # 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta4.jpg',
             ]
+            url_hidden = 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta3.jpg'
             #self.imagen_hidden = descargar_imagen(100, hidden_image_url)  # Imagen oculta
             images_download = []
             total_items_to_duplicate = int((self.board_size * self.board_size) / len(urls))
@@ -67,6 +68,7 @@ class GameModel:
                 self.images[random_position] = image
             print(self.images)
 
+            self.imagen_hidden = descargar_imagen(65,url_hidden)
             # Todas las imágenes se han descargado, activar el evento
             self.images_are_loaded.set()
 
@@ -83,6 +85,7 @@ class GameModel:
     def get_time(self):
         #calcula y devuelve el timepo en segundos desde el inicio del temporizador
         pass
+
     def check_match(self, id_image1, id_image2):
         #Aumenta el contador de movimientos y verifica si 2 posiciones del tablero contienen la misma imagen (coinciden).
         #Si encuentran imagenes coincidentes se incrementa el contador pairs_found
