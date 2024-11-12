@@ -98,16 +98,18 @@ class GameController:
             self.view.delay(pos1, pos2)
         self.update_move_count()
         self.selected = []
+        self.check_game_complete()
 
     def update_move_count(self):
         #Actualiza el contador de movimientos en GameView par reflejar número actual de movimientos
         self.view.moves += 1
         self.view.update_move_count(self.view.moves)
-        pass
+
 
     def check_game_complete(self):
         #Verifica si el juego está completo llamando a is_game_complete del modelo. Si se han encontrado todas las parejas muestra un mensaje de victoria y vuelve al main_menu
-        pass
+        if self.model.is_game_complete():
+            print("Terminado game")
 
     def return_to_main_menu(self):
         #Cierra la vista del juego actual y vuelve al menú principal, permitiendo que el jugador inicie nueva partida o salga

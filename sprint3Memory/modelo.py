@@ -15,7 +15,7 @@ class GameModel:
         self.board = []
         self.difficulty = None
         self.player_name = ""
-
+        self.pairs_found = 0
         self.moves = 0 #Contador de movimientos
         self.start_time = 0 #Temporizador de partida
         self.images = {}  # Almacena las imágenes descargadas
@@ -50,7 +50,7 @@ class GameModel:
             total_items_to_duplicate = int((self.board_size * self.board_size) / len(urls))
             for count, url in enumerate(urls):
                 print('url', url)
-                downloaded_image = descargar_imagen(65, url)
+                downloaded_image = descargar_imagen(80,120, url)
                 images_download += [(count, downloaded_image)] * total_items_to_duplicate
 
             len_board = self.board_size * self.board_size
@@ -69,7 +69,7 @@ class GameModel:
                 self.images[random_position] = image
             print(self.images)
 
-            self.imagen_hidden = descargar_imagen(65,url_hidden)
+            self.imagen_hidden = descargar_imagen(80,120,url_hidden)
             # Todas las imágenes se han descargado, activar el evento
             self.images_are_loaded.set()
 
@@ -83,13 +83,11 @@ class GameModel:
     def start_timer(self):
         #Reinicia el tiempo de inicio del juego para el temporizador, permitiendo un registro del tiempo
         self.start_time = time.time()
-        print("Tiempo starteado")
-        pass
+
 
 
     def get_time(self):
         #calcula y devuelve el timepo en segundos desde el inicio del temporizador
-        print("Tiempo en get_time(modelo)", str(int(time.time() - self.start_time)))
         elapsed_time = int(time.time() - self.start_time)  # Devuelve el tiempo en segundos
         return elapsed_time
 
@@ -97,11 +95,17 @@ class GameModel:
         #Aumenta el contador de movimientos y verifica si 2 posiciones del tablero contienen la misma imagen (coinciden).
         #Si encuentran imagenes coincidentes se incrementa el contador pairs_found
         print(f'Is same card? {id_image1}, {id_image2} ----- {id_image1 == id_image2}')
+        if id_image1 == id_image2:
+            self.pairs_found += 1
+            print("Parejas encontradas: ", self.pairs_found)
         return id_image1 == id_image2
 
     def is_game_complete(self):
         #Verifica si se han encontrado todas las parejas del tablero. Si el número de parejas encontradas es igual a la mitad del tamaño total del tablero, juego terminado
-        pass
+        total_pairs = ((self.board_size * self.board_size)/ 2)
+        print("total_pairs:", total_pairs)
+        return self.pairs_found == total_pairs
+
     def save_score(self):
         #Guarda puntuación del juegador en archivo ranking.txt los datos incluyen nombre, dificultad, numero de movimientos y fecha.
         #Solo se guardan las 3 mejores puntuaciones de cada nivel de dificultad, basado en número de movimientos

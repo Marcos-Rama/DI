@@ -17,7 +17,7 @@ class GameView(Toplevel):
         self.on_card_click_callback =on_card_click_callback
         self.update_move_count_callback = update_move_count_callback
         self.update_time_callback = update_time_callback
-        self.hidden_image = descargar_imagen(65, "https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta3.jpg")
+        self.hidden_image = descargar_imagen(80,120, "https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta3.jpg")
         self.move_count_label = tk.Label(self, text="Movimientos: 0")
         self.move_count_label.grid(row=0, column=0, columnspan=2, sticky="w")
 
@@ -28,10 +28,12 @@ class GameView(Toplevel):
     #Crea la ventana del juego como instancia TopLevel, con su título y usando el modelo para definir tamaño y contenido
     #Genera un tablero de Labels en función del tamaño, cada una será una imagen oculta, se organizan en cuadrícula y vinculadas a eventos de click que llaman al callback "on_card_click_callback"
     #Añadir etiquetas para contador de movimientos y temporizador
+        card_width = 80
+        card_height = 120
         print("Haciendo tablero")
         for i, row in enumerate(model.board):
             for j, card in enumerate(row):
-                lbl = Label(self, text="*", width=65, height=75,image=model.imagen_hidden , relief="raised", bg="grey")
+                lbl = Label(self, text="*", width=card_width, height=card_height,image=model.imagen_hidden , relief="raised", bg="grey")
                 lbl.grid(row=i+1,column = j)
                 self.labels[(i,j)] = lbl
                 lbl.bind("<Button-1>", lambda event, pos=(i,j): self.on_card_click_callback(event,pos))
@@ -65,15 +67,13 @@ class GameView(Toplevel):
 
     def update_move_count(self,moves):
         #Actualiza el contador de movimientos en la interfaz, modificando el texto de la label que muestra los mov. actuales
-        print("Movimientos", moves)
         self.move_count_label.config(text=f"Movimientos: {moves}")
-        pass
+
 
     def update_time(self, time_elapsed):
         #Actualiza el temporizador de la interfaz para reflejar el tiempo pasado
         self.time_label.config(text=f"Tiempo: {time_elapsed}s")
-        print("Tiempo vista update_time: ", time_elapsed)
-        pass
+
 
     def destroy(self):
         #Cierra la ventana del tablero y limpia los elementos almacenados en labels. Esto sirve para restablecer la interfaz al terminar le juego o vovler al menu principal
