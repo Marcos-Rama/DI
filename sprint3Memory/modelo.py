@@ -1,3 +1,4 @@
+import os
 import threading
 import time
 import random
@@ -129,7 +130,42 @@ class GameModel:
     def save_score(self):
         #Guarda puntuación del juegador en archivo ranking.txt los datos incluyen nombre, dificultad, numero de movimientos y fecha.
         #Solo se guardan las 3 mejores puntuaciones de cada nivel de dificultad, basado en número de movimientos
-        pass
+        current_date = datetime.now().strftime("%Y-%m-%d") #Obtenemos la fecha actual en formato año-mes-dia
+        score_entry = f"{self.player_name}, {self.moves} movimientos, {current_date}" #Creamos lo que será el mensaje que se guardará para cada player
+
+        #Si no existe el archivo lo crea
+        if not os.path.exists("ranking.txt"):
+            with open("ranking.txt", "w") as f:
+                f.write("Nombre, Dificultad, Movimientos, Fecha\n")
+
+        with open("ranking.txt", "a") as f:
+            f.write(f"{self.player_name}, {self.difficulty}, {self.moves}, {current_date}\n")
+
+        #Diccionario de rankings
+
+        with open("ranking.txt", 'r') as f:
+            lines = f.readlines()
+
+        scores_by_difficulty = {"facil": [], "medio": [], "dificil": []}
+
+        for line in lines:
+
+            parts = line.strip().split(", ")
+            if len(parts) == 4:  # Verifica que la línea tenga el formato esperado
+                name, difficulty, moves, date = parts
+                # Asegurarse de que 'difficulty' tenga un valor esperado
+                if difficulty in scores_by_difficulty:
+                    scores_by_difficulty[difficulty].append((name, difficulty, int(moves), date))
+
+        for difficulty in scores_by_difficulty:
+            scores_by_difficulty[difficulty] = sorted(scores_by_difficulty[difficulty], key=lambda x: x[2])
+
+        with open("ranking.txt", 'w') as f:
+            f.write("Nombre, Dificultad, Movimientos, Fecha\n")  # Escribir la cabecera
+            for difficulty in scores_by_difficulty:
+                for score in scores_by_difficulty[difficulty][:3]:  # Solo las tres mejores
+                    f.write(f"{score[0]}, {score[1]}, {score[2]}, {score[3]}\n")
+
     def load_scores(self):
         #Carga y devuelve puntuaciones desde archivo ranking.txt. Si el archivo no existe se devuelve un diccionario vacion con listas para cada nivel
         #Esto será util para mostrar el ranking de los mejors jugadores en una interfaz
