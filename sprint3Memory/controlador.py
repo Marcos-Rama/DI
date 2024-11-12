@@ -71,10 +71,8 @@ class GameController:
             self.root.after(100, self.check_images_loaded)
 
     def on_card_click(self,event, pos):
-        #Maneja evento de clic en una carta, si el temporizador no ha compezado, lo inicia y actualiza el temporizador en interfaz
+        #Maneja evento de clic en una carta, si el temporizador no ha compezado, lo inicia.
         #Almacena la posición de la carta clicada y, si hay dos cargas en self.selected, llama a handle_card_selection para verificar si coinciden
-        #Si el timer parado empiezalo
-
 
         if not self.timer_started:
             self.timer_started = True
@@ -125,10 +123,10 @@ class GameController:
             print("Terminado game")
 
     def return_to_main_menu(self):
-        #Cierra la vista del juego actual y vuelve al menú principal, permitiendo que el jugador inicie nueva partida o salga
+        #Cierra la vista del juego actual y vuelve al menú principal, permitiendo que el jugador inicie nueva partida o salga y reinicia ciertos valores a un estado por defecto
 
-        self.selected = []  # Limpiar selección
-        self.timer_started = False  # Reiniciar temporizador
+        self.selected = []
+        self.timer_started = False
         self.view.moves = 0
         if self.view:
             self.view.destroy()
@@ -140,7 +138,7 @@ class GameController:
         self.root.deiconify()
 
     def show_stats(self):
-        #Obtiene estadísitcas de puntuaciones desde el modelo y las muestra en el menú principal
+        #Obtiene estadísitcas de puntuaciones desde un fichero y las muestra en una nueva ventana
         scores = self.model.load_scores()
         stats_window = Toplevel(self.root)
         stats_window.title("Ranking")

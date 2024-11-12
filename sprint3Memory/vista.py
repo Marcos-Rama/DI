@@ -51,7 +51,9 @@ class GameView(Toplevel):
         self.after(1000, lambda: self.reset_cards(pos1, pos2))
 
     def reset_cards(self, pos1, pos2):
-        # Obtener las etiquetas de las cartas
+        """
+        Devuelve las cartas a la posicion oculta
+        """
 
         print('RESET CARDS')
         # self.delay(pos1, pos2)
@@ -76,9 +78,6 @@ class GameView(Toplevel):
         self.time_label.config(text=f"Tiempo: {time_elapsed}s")
 
 
-    def destroy(self):
-        #Cierra la ventana del tablero y limpia los elementos almacenados en labels. Esto sirve para restablecer la interfaz al terminar le juego o vovler al menu principal
-        self.withdraw()
 
 
 
@@ -91,7 +90,3 @@ class MainMenu:
         (tk.Button(self.window, text="Salir", command=quit_callback).pack(pady=10))
 
 
-    #Esta función deberá abrir una ventana TopLevel que muestre las etadísticas de los jugadores (puntuaciones organizadas por nivel de dificultad) y muestra nombre-movimientos
-
-    def show_stats(self,stats):
-        pass

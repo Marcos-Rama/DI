@@ -2,6 +2,7 @@ Nombre, Dificultad, Movimientos, Fecha
 Tu, facil, 11, 2024-11-12
 Prueba, facil, 12, 2024-11-12
 NuevoMarcos, facil, 12, 2024-11-12
+MarcosMedio, medio, 28, 2024-11-12
 Medio1, medio, 32, 2024-11-12
 Yo, medio, 34, 2024-11-12
 Dificil1, dificil, 56, 2024-11-12

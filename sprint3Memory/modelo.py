@@ -3,7 +3,6 @@ import threading
 import time
 import random
 from datetime import datetime
-from email.contentmanager import raw_data_manager
 
 from recursos import descargar_imagen
 
@@ -11,8 +10,10 @@ class GameModel:
 
 
     def __init__(self):
-    #Inicia el modelo, establece el tamaño del tablero según la dificultad.
-    #¿¿¿¿Llama a _generate_board() para crear la estructura del tablero y a _load_images() para cargar las imágenes en segundo plano???
+        """
+        Inicia el modelo, establece el tamaño del tablero según la dificultad y declara los atributos que vaya a necesitar
+        """
+
         self.board = []
         self.difficulty = None
         self.player_name = ""
@@ -27,6 +28,9 @@ class GameModel:
         self.images_loaded = threading.Event()
 
     def _generate_board(self,difficulty):
+        """
+        Genera las caracteristicas que tendrá el tablero en función de la dificultad elegida
+        """
         if difficulty == "facil":
             self.board_size = 4
         elif difficulty == "medio":
@@ -39,8 +43,11 @@ class GameModel:
         self.board = [card_ids[i:i + self.board_size] for i in range(0, len(card_ids), self.board_size)]
 
     def _load_images(self):
-        #inicia hilo para descargar y cargar imágenes mediante una URL base. La imagen oculta se asigna a hidden_image y
-        #cada identificador de carta se asigna a una imagen descargada específica.
+
+        """
+        Inicia hilo para descargar y cargar imágenes mediante unas URL. La imagen oculta se asigna a hidden_image y
+        cada identificador de carta se asigna a una imagen descargada específica.
+        """
         def load_images_thread():
             urls = [
                 'https://raw.githubusercontent.com/Marcos-Rama/DI/refs/heads/main/carta1.jpg',
@@ -74,8 +81,8 @@ class GameModel:
             print(self.images)
 
             self.imagen_hidden = descargar_imagen(80,120,url_hidden)
-            # Todas las imágenes se han descargado, activar el evento
 
+            # Todas las imágenes se han descargado, activar el evento
             self.images_loaded.set()
 
         threading.Thread(target=load_images_thread).start()
@@ -105,8 +112,12 @@ class GameModel:
         return elapsed_time
 
     def check_match(self, id_image1, id_image2):
-        #Aumenta el contador de movimientos y verifica si 2 posiciones del tablero contienen la misma imagen (coinciden).
-        #Si encuentran imagenes coincidentes se incrementa el contador pairs_found
+
+        """
+        Verifica si 2 posiciones del tablero contienen la misma imagen (coinciden).
+        Si encuentran imagenes coincidentes se incrementa el contador pairs_found
+        """
+
         print(f'Is same card? {id_image1}, {id_image2} ----- {id_image1 == id_image2}')
         if id_image1 == id_image2:
             self.pairs_found += 1
@@ -120,6 +131,7 @@ class GameModel:
         return self.pairs_found == total_pairs
 
     def reset_game(self):
+        #Resetea los valores siguientes para un nuevo juego
         self.pairs_found = 0
         self.start_time = None
         self.timer_running = False
@@ -128,8 +140,12 @@ class GameModel:
 
 
     def save_score(self):
-        #Guarda puntuación del juegador en archivo ranking.txt los datos incluyen nombre, dificultad, numero de movimientos y fecha.
-        #Solo se guardan las 3 mejores puntuaciones de cada nivel de dificultad, basado en número de movimientos
+
+        """
+        Guarda puntuación del juegador en archivo ranking.txt los datos incluyen nombre, dificultad, numero de movimientos y fecha.
+        Solo se guardan las 3 mejores puntuaciones de cada nivel de dificultad, basado en número de movimientos
+        """
+
         current_date = datetime.now().strftime("%Y-%m-%d") #Obtenemos la fecha actual en formato año-mes-dia
         score_entry = f"{self.player_name}, {self.moves} movimientos, {current_date}" #Creamos lo que será el mensaje que se guardará para cada player
 
@@ -141,7 +157,6 @@ class GameModel:
         with open("ranking.txt", "a") as f:
             f.write(f"{self.player_name}, {self.difficulty}, {self.moves}, {current_date}\n")
 
-        #Diccionario de rankings
 
         with open("ranking.txt", 'r') as f:
             lines = f.readlines()
@@ -151,7 +166,7 @@ class GameModel:
         for line in lines:
 
             parts = line.strip().split(", ")
-            if len(parts) == 4:  # Verifica que la línea tenga el formato esperado
+            if len(parts) == 4:  # Verifica que la línea tenga el formato
                 name, difficulty, moves, date = parts
                 # Asegurarse de que 'difficulty' tenga un valor esperado
                 if difficulty in scores_by_difficulty:
@@ -167,8 +182,10 @@ class GameModel:
                     f.write(f"{score[0]}, {score[1]}, {score[2]}, {score[3]}\n")
 
     def load_scores(self):
-        #Carga y devuelve puntuaciones desde archivo ranking.txt. Si el archivo no existe se devuelve un diccionario vacion con listas para cada nivel
-        #Esto será util para mostrar el ranking de los mejors jugadores en una interfaz
+        """
+        Carga y devuelve puntuaciones desde archivo ranking.txt. Si el archivo no existe se devuelve un diccionario vacion con listas para cada nivel
+        Esto será util para mostrar el ranking de los mejors jugadores en una interfaz"""
+
         ranking_file = "ranking.txt"
         scores_by_difficulty = {"facil": [], "medio": [], "dificil": []}
 
