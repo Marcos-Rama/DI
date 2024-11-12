@@ -44,7 +44,7 @@ class GameView(Toplevel):
         #Actualiza la imagen de una carta en una posición concreta (pos), configurando la imagen que corresponda según el image_id que tenga
         row, col = pos
         label = self.labels[(row, col)]  # Obtener la etiqueta de la carta
-        label.config(image=image, width=80, heigh= 50)  # Actualizar la imagen
+        label.config(image=image)  # Actualizar la imagen
         label.image = image  #Mantener una referencia de la imagen
 
     def delay(self, pos1, pos2):

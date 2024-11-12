@@ -121,6 +121,7 @@ class GameController:
             self.model.stop_timer()
             self.model.save_score()
             self.return_to_main_menu()
+            messagebox.showinfo("Fin de partida","Enhorabuena! Has terminado la partida")
             print("Terminado game")
 
     def return_to_main_menu(self):
@@ -140,7 +141,17 @@ class GameController:
 
     def show_stats(self):
         #Obtiene estadísitcas de puntuaciones desde el modelo y las muestra en el menú principal
-        pass
+        scores = self.model.load_scores()
+        stats_window = Toplevel(self.root)
+        stats_window.title("Ranking")
+
+        for idx, (difficulty, scores_list) in enumerate(scores.items()):
+            label = Label(stats_window, text=f"--- {difficulty.capitalize()} ---")
+            label.grid(row=idx * 6, column=0, sticky="w", padx=10, pady=5)
+            for i, score in enumerate(scores_list[:3]):  # Mostrar solo los 3 mejores
+                name, _, moves, date = score
+                score_label = Label(stats_window, text=f"{i + 1}. {name} - Movimientos: {moves} - Fecha: {date}")
+                score_label.grid(row=idx * 6 + i + 1, column=0, sticky="w", padx=20)
 
     def update_time(self):
         #Actualiza el temporizador de la vista del juego. Se llama a sí misma cada segundo mientras el juego esté activo

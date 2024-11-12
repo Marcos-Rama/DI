@@ -79,7 +79,7 @@ class GameModel:
             self.images_loaded.set()
 
         threading.Thread(target=load_images_thread).start()
-        pass
+
 
     def images_are_loaded(self):
         #verifica si todas la imagenes han sido cargadas, devuelve valor booleano que indica si el evento images_loaded se ha activado(imagenes listas)
@@ -169,7 +169,23 @@ class GameModel:
     def load_scores(self):
         #Carga y devuelve puntuaciones desde archivo ranking.txt. Si el archivo no existe se devuelve un diccionario vacion con listas para cada nivel
         #Esto será util para mostrar el ranking de los mejors jugadores en una interfaz
-        pass
+        ranking_file = "ranking.txt"
+        scores_by_difficulty = {"facil": [], "medio": [], "dificil": []}
 
+        #Si existe, abrimos el fichero en lectura
 
+        if os.path.exists(ranking_file):
+            with open(ranking_file, 'r') as f:
+                lines = f.readlines()
+            # Eliminar la primera línea
+            header = lines.pop(0)
 
+            for line in lines:
+                parts = line.strip().split(", ")
+                if len(parts) == 4:  # Verifica que la línea esté bien formateada
+                    name, difficulty, moves, date = parts
+                    if difficulty in scores_by_difficulty:
+                        scores_by_difficulty[difficulty].append((name, difficulty, int(moves), date))
+            for difficulty in scores_by_difficulty:
+                scores_by_difficulty[difficulty] = sorted(scores_by_difficulty[difficulty], key=lambda x: x[2])
+        return scores_by_difficulty
