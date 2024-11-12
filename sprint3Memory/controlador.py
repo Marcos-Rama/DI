@@ -30,6 +30,12 @@ class GameController:
 
     def start_game(self, difficulty):
         #Muestra ventana de carga y crear una instancia GameModel con dificultad y nombre elegidos, llama a check_images_loaded
+        if not self.view:
+            self.view = GameView(
+                on_card_click_callback=self.on_card_click,
+                update_move_count_callback=self.update_move_count,
+                update_time_callback=self.update_time
+            )
         self.model.difficulty = difficulty
         self.model._generate_board(difficulty)  # Generar el tablero
         self.model._load_images()  # Cargar las imágenes de las cartas
@@ -40,7 +46,8 @@ class GameController:
         # Iniciar la verificación de la carga de imágenes
         self.check_images_loaded()
 
-        pass
+        self.root.after(100, self.model.start_timer)
+
 
     def show_loading_window(self, message):
         #Crea una ventana de carga temporal para indicar que el tablero está siendo preparado, esto impide interactuar con otras partes de la interfaz mientras dure la carga
@@ -49,18 +56,19 @@ class GameController:
         tk.Label(self.loading_window, text=message).pack(padx=20, pady=20)
         self.loading_window.transient(self.root)
         self.loading_window.grab_set()
-        pass
+
 
     def check_images_loaded(self):
         #Comprueba si las imágenes se han cargado completamente en el modelo, una vez listas destruye la ventana de carga y crea una instancia GameModel para el tablero y controles de juego
         #Si las imágenes no están listas, vuelve a comprobar tras un breve tiempo
-        if self.model.images_are_loaded.is_set():
+        if self.model.images_loaded.is_set():
             self.view.create_board(self.model)
-            self.loading_window.destroy()
+            if self.loading_window:
+                self.loading_window.destroy()
+                self.loading_window = None
         else:
             # Repetir la comprobación después de un breve intervalo
             self.root.after(100, self.check_images_loaded)
-        pass
 
     def on_card_click(self,event, pos):
         #Maneja evento de clic en una carta, si el temporizador no ha compezado, lo inicia y actualiza el temporizador en interfaz
@@ -109,11 +117,24 @@ class GameController:
     def check_game_complete(self):
         #Verifica si el juego está completo llamando a is_game_complete del modelo. Si se han encontrado todas las parejas muestra un mensaje de victoria y vuelve al main_menu
         if self.model.is_game_complete():
+            self.model.stop_timer()
+            self.return_to_main_menu()
             print("Terminado game")
 
     def return_to_main_menu(self):
         #Cierra la vista del juego actual y vuelve al menú principal, permitiendo que el jugador inicie nueva partida o salga
-        pass
+
+        self.selected = []  # Limpiar selección
+        self.timer_started = False  # Reiniciar temporizador
+        self.view.moves = 0
+        if self.view:
+            self.view.destroy()
+            self.view = None
+
+        self.model.reset_game()
+
+        self.main_menu.window.deiconify()  # Asegurarse de que el menú principal está visible
+        self.root.deiconify()
 
     def show_stats(self):
         #Obtiene estadísitcas de puntuaciones desde el modelo y las muestra en el menú principal
@@ -121,9 +142,10 @@ class GameController:
 
     def update_time(self):
         #Actualiza el temporizador de la vista del juego. Se llama a sí misma cada segundo mientras el juego esté activo
-        time_elapsed = self.model.get_time()
-        self.view.update_time(time_elapsed)
-        # Llama a `update_time` cada segundo mientras el juego esté activo
+        if self.view:
+            time_elapsed = self.model.get_time()
+            self.view.update_time(time_elapsed)
+            # Llama a `update_time` cada segundo mientras el juego esté activo
+            print("tiempo",time_elapsed)
+            self.root.after(1000, self.update_time)
 
-        self.root.after(1000, self.update_time)
-        pass

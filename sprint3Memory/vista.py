@@ -30,10 +30,11 @@ class GameView(Toplevel):
     #Añadir etiquetas para contador de movimientos y temporizador
         card_width = 80
         card_height = 120
+
         print("Haciendo tablero")
         for i, row in enumerate(model.board):
             for j, card in enumerate(row):
-                lbl = Label(self, text="*", width=card_width, height=card_height,image=model.imagen_hidden , relief="raised", bg="grey")
+                lbl = Label(self, text="*", width=card_width, height=card_height,image=self.hidden_image , relief="raised", bg="grey")
                 lbl.grid(row=i+1,column = j)
                 self.labels[(i,j)] = lbl
                 lbl.bind("<Button-1>", lambda event, pos=(i,j): self.on_card_click_callback(event,pos))
@@ -77,7 +78,7 @@ class GameView(Toplevel):
 
     def destroy(self):
         #Cierra la ventana del tablero y limpia los elementos almacenados en labels. Esto sirve para restablecer la interfaz al terminar le juego o vovler al menu principal
-        pass
+        self.withdraw()
 
 
 

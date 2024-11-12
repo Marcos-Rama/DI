@@ -16,11 +16,14 @@ class GameModel:
         self.difficulty = None
         self.player_name = ""
         self.pairs_found = 0
+        self.total_time = 0
         self.moves = 0 #Contador de movimientos
         self.start_time = 0 #Temporizador de partida
         self.images = {}  # Almacena las imágenes descargadas
         self.images_are_loaded = threading.Event()
         self.imagen_hidden = None
+        self.timer_running = False
+        self.images_loaded = threading.Event()
 
     def _generate_board(self,difficulty):
         if difficulty == "facil":
@@ -71,23 +74,32 @@ class GameModel:
 
             self.imagen_hidden = descargar_imagen(80,120,url_hidden)
             # Todas las imágenes se han descargado, activar el evento
-            self.images_are_loaded.set()
+
+            self.images_loaded.set()
 
         threading.Thread(target=load_images_thread).start()
         pass
 
     def images_are_loaded(self):
         #verifica si todas la imagenes han sido cargadas, devuelve valor booleano que indica si el evento images_loaded se ha activado(imagenes listas)
-        pass
+        return self.images_loaded.is_set()
 
     def start_timer(self):
         #Reinicia el tiempo de inicio del juego para el temporizador, permitiendo un registro del tiempo
-        self.start_time = time.time()
+        if not self.timer_running:
+            self.start_time = time.time()
+            self.timer_running = True
 
+    def stop_timer(self):
+        if self.timer_running:
+            self.total_time = int(time.time() - self.start_time)
+            self.timer_running = False
 
 
     def get_time(self):
         #calcula y devuelve el timepo en segundos desde el inicio del temporizador
+        if self.start_time is None:
+            return 0
         elapsed_time = int(time.time() - self.start_time)  # Devuelve el tiempo en segundos
         return elapsed_time
 
@@ -105,6 +117,14 @@ class GameModel:
         total_pairs = ((self.board_size * self.board_size)/ 2)
         print("total_pairs:", total_pairs)
         return self.pairs_found == total_pairs
+
+    def reset_game(self):
+        self.pairs_found = 0
+        self.start_time = None
+        self.timer_running = False
+        self.board = []
+        self.images_loaded.clear()
+
 
     def save_score(self):
         #Guarda puntuación del juegador en archivo ranking.txt los datos incluyen nombre, dificultad, numero de movimientos y fecha.
