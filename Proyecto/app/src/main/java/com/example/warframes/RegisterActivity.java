@@ -22,6 +22,7 @@ import java.util.Map;
 public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Context context = this;
+    // Instancia de DatabaseReference para escribir datos en Firebase Database.
     private DatabaseReference databaseRef;
 
     @Override
@@ -31,10 +32,13 @@ public class RegisterActivity extends AppCompatActivity {
         findViewById(R.id.registerButton).setOnClickListener(v -> registerUser());
 
         mAuth = FirebaseAuth.getInstance();
+
+        // Inicializamos DatabaseReference para poder acceder a la base de datos de Firebase.
         databaseRef = FirebaseDatabase.getInstance().getReference();
 
     }
     private void registerUser() {
+        // Obtenemos los valores ingresados por el usuario en los campos de texto.
         String name = ((EditText) findViewById(R.id.nameEditText)).getText().toString();
         String email = ((EditText) findViewById(R.id.emailRegisterEditText)).getText().toString();
         String password = ((EditText) findViewById(R.id.passwordRegisterEditText)).getText().toString();
@@ -51,23 +55,25 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(context, "Constraseñas distintas", Toast.LENGTH_SHORT).show();
             return;
         }
+        // Intentamos crear un nuevo usuario con el correo y la contraseña proporcionados.
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
-                            Toast.makeText(context, "Task successful??", Toast.LENGTH_SHORT).show();
+                            // Obtenemos la información del usuario recién creado.
                             FirebaseUser firebaseUser = task.getResult().getUser();
 
-                            Toast.makeText(context, "mAuth.getCurrent", Toast.LENGTH_SHORT).show();
-
                             if (firebaseUser != null) {
+                                // Obtenemos el UID del usuario recién creado.
                                 String uid = firebaseUser.getUid();
-                                Toast.makeText(context, "UID obtenido: " + uid, Toast.LENGTH_SHORT).show();
+
+                                // Creamos un mapa con los datos del nuevo usuario.
                                 Map<String, Object> newUser = new HashMap<>();
                                 newUser.put("name", name);
                                 newUser.put("email", email);
                                 newUser.put("telephone", telephone);
                                 newUser.put("address", address);
-                                Toast.makeText(context, "control3", Toast.LENGTH_SHORT).show();//Este se muestra
+
+                                // Guardamos los datos del usuario en la base de datos de Firebase.
                                 databaseRef.child("users").child(uid).setValue(newUser)
                                         .addOnCompleteListener(dbTask -> {
                                             if (dbTask.isSuccessful()) {
@@ -80,6 +86,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         });
                             }
                         } else {
+                            // Si hubo un error al crear el usuario, mostramos un mensaje de error.
                             Toast.makeText(context, "Error en el registro", Toast.LENGTH_LONG).show();
                             Log.e("Firebase", "Error al registrar usuario", task.getException());
                         }
@@ -87,24 +94,4 @@ public class RegisterActivity extends AppCompatActivity {
 
         }
 
-        public static class User {
-            public String uid;
-            public String name;
-            public String email;
-            public String telephone;
-            public String address;
-
-
-            // Constructor vacío necesario para Firebase
-            public User() {
-            }
-
-            public User(String uid, String name,String email, String telephone, String address) {
-                this.uid = uid;
-                this.name = name;
-                this.email = email;
-                this.telephone = telephone;
-                this.address = address;
-            }
-        }
     }
