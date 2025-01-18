@@ -23,7 +23,6 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Context context = this;
     private DatabaseReference databaseRef;
-    private FirebaseUser auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +42,13 @@ public class RegisterActivity extends AppCompatActivity {
         String telephone = ((EditText) findViewById(R.id.telephoneEditText)).getText().toString();
         String address = ((EditText) findViewById(R.id.addressEditText)).getText().toString();
 
-        if ((!password.equals(repassword)) ||(name.isEmpty() || email.isEmpty() || password.isEmpty() || repassword.isEmpty() ||
+        if ((name.isEmpty() || email.isEmpty() || password.isEmpty() || repassword.isEmpty() ||
                 telephone.isEmpty() || address.isEmpty())) {
-            Toast.makeText(context, "Algún error en los campos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Algún campo vacío", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (!password.equals(repassword)) {
+            Toast.makeText(context, "Constraseñas distintas", Toast.LENGTH_SHORT).show();
             return;
         }
             mAuth.createUserWithEmailAndPassword(email, password)
