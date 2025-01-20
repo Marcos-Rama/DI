@@ -1,9 +1,8 @@
-package com.example.warframes;
+package com.example.warframes.views;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.warframes.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,7 +44,7 @@ public class DashboardActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         // Inicializamos DatabaseReference para poder leer los datos de Firebase de un objeto concreto de momento.
-        databaseRef = FirebaseDatabase.getInstance().getReference().child("warframes/001");;
+        databaseRef = FirebaseDatabase.getInstance().getReference().child("warframes/002");;
 
         logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override

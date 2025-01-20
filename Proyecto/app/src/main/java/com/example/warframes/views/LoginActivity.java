@@ -1,4 +1,4 @@
-package com.example.warframes;
+package com.example.warframes.views;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.widget.Toast;
 import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.warframes.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 
