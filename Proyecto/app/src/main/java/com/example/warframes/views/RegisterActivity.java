@@ -3,6 +3,7 @@ package com.example.warframes.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,10 +27,25 @@ public class RegisterActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
 
-
+        setupObservers();
         findViewById(R.id.registerButton).setOnClickListener(v -> registerUser());
     }
 
+    private void setupObservers() {
+        viewModel.getErrorMessage().observe(this, message -> {
+            if (message != null) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        viewModel.getRegistrationSuccess().observe(this, success -> {
+            if (success) {
+                Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+            }
+        });
+    }
 
 
     private void registerUser() {
