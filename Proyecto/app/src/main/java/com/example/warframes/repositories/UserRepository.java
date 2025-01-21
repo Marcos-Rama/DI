@@ -26,6 +26,9 @@ public class UserRepository {
         return productRef.child("users")
                 .child(user.getUid())
                 .setValue(user);
+    }
 
+    public Task<AuthResult> loginUser(String email, String password) {
+        return firebaseAuth.signInWithEmailAndPassword(email, password);
     }
 }

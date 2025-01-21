@@ -9,21 +9,26 @@ import android.widget.Toast;
 import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.warframes.R;
+import com.example.warframes.viewmodels.LoginViewModel;
+import com.example.warframes.viewmodels.RegisterViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
 
 public class LoginActivity extends AppCompatActivity {
     private Context context = this;
     private FirebaseAuth mAuth;
+    private LoginViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Inicializamos FirebaseAuth.
-        mAuth = FirebaseAuth.getInstance();
+
+        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        setupObservers();
 
         Button registerButton = findViewById(R.id.registerButton);
 
@@ -39,29 +44,32 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-        private void loginUser() {
-            // Obtenemos el correo electrónico y la contraseña desde los EditText.
-            String email = ((EditText) findViewById(R.id.emailEditText)).getText().toString();
-            String password = ((EditText) findViewById(R.id.passwordEditText)).getText().toString();
-
-            // Verificamos si los campos están vacíos, mostrando un mensaje si es el caso.
-            if  (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(context, "Email o contraseña vacíos", Toast.LENGTH_SHORT).show();
-                // Si los campos están vacíos, no continuamos con la autenticación.
-                return;
+    private void setupObservers() {
+        viewModel.getErrorMessage().observe(this, message -> {
+            if (message != null) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             }
-            // Intentamos hacer login con el correo y la contraseña proporcionados.
-            mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, task -> {
-                        // Si la autenticación es exitosa, mostramos un mensaje y pasamos a la siguiente actividad.
-                        if (task.isSuccessful()) {
-                            Toast.makeText(context, "Inicio de sesión exitoso.", Toast.LENGTH_SHORT).show();
-                            Intent myIntent = new Intent(context, DashboardActivity.class);
-                            context.startActivity(myIntent);
-                        } else {
-                            Toast.makeText(context, "Error en autenticación.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+        });
+
+        viewModel.getLoginSuccess().observe(this, success -> {
+            if (success) {
+                Toast.makeText(this, "Login exitoso", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, DashboardActivity.class));
+                finish();
+            }
+        });
+    }
+    private void loginUser() {
+        EditText emailEditText = findViewById(R.id.emailEditText);
+        EditText passwordEditText = findViewById(R.id.passwordEditText);
+
+        if (emailEditText == null || passwordEditText == null) {
+            Toast.makeText(this, "Error: Elementos de la UI no encontrados", Toast.LENGTH_SHORT).show();
+            return;
         }
-        
+
+        String email = emailEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString().trim();
+        viewModel.loginUser(email, password);
+    }
 }
