@@ -1,16 +1,10 @@
 package com.example.warframes.viewmodels;
 
-import android.content.Context;
-import android.content.Intent;
-import android.widget.Toast;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.warframes.models.User;
 import com.example.warframes.repositories.UserRepository;
-import com.example.warframes.views.DashboardActivity;
 
 public class LoginViewModel extends ViewModel {
     private final UserRepository repository;
