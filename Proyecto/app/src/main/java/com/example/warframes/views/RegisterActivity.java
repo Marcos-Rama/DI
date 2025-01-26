@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 
-
+//Casi igual que LoginActivity
 public class RegisterActivity extends AppCompatActivity {
     private RegisterViewModel viewModel;
 
@@ -49,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     private void registerUser() {
+        //Obtiene los valores de los campos del registro
         String name = ((EditText) findViewById(R.id.nameEditText)).getText().toString();
         String email = ((EditText) findViewById(R.id.emailRegisterEditText)).getText().toString();
         String password = ((EditText) findViewById(R.id.passwordRegisterEditText)).getText().toString();

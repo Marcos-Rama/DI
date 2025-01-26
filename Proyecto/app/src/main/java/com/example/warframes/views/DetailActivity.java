@@ -1,84 +1,66 @@
 package com.example.warframes.views;
 
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+
 import com.bumptech.glide.Glide;
 import com.example.warframes.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.example.warframes.databinding.ActivityDetailBinding;
 
 
 public class DetailActivity extends AppCompatActivity {
-    private FirebaseAuth mAuth;
-    private Context context = this;
-    private DatabaseReference databaseRef;
-    // Referencias a los componentes de la interfaz de usuario: un ImageView y dos TextViews.
-    private ImageView imageView;
-    private TextView titleTextView, descriptionTextView;
-
+    private static final String TAG = "DetailActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        //Para comprobar fallos que puedan dar, no es necesario para la funcionalidad
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            Log.d("DetailActivity", "Name: " + extras.getString("name"));
+            Log.d("DetailActivity", "Description: " + extras.getString("description"));
+            Log.d("DetailActivity", "URL: " + extras.getString("url"));
+        } else {
+            Log.e("DetailActivity", "No extras found in intent");
+        }
 
-        // Inicializamos las vistas desde el layout XML.
-        titleTextView = findViewById(R.id.titleTextView);
-        descriptionTextView = findViewById(R.id.descriptionTextView);
-        imageView = findViewById(R.id.imageView);
+        //Configura el binding para la vista
+        ActivityDetailBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
+        //Extra los datos del intent
+        String name = getIntent().getStringExtra("name");
+        String description = getIntent().getStringExtra("description");
+        String url = getIntent().getStringExtra("url");
+
+        //Valida que los datos necesarios no estén vacíos
+        if (name == null || description == null || url == null) {
+            Log.e(TAG, "Datos incompletos del Warframe");
+            Toast.makeText(this, "Error al cargar los datos", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+        //Establece-vincula los datos en los elementos de la vista
+        binding.titleTextView.setText(name);
+        binding.descriptionTextView.setText(description);
+        Glide.with(this).load(url).into(binding.imageView); //Glide necesario para mostrar una imagen
+
+        //Configuración de la función del botón de Logout
         Button logOutButton = findViewById(R.id.logOutButton);
-        mAuth = FirebaseAuth.getInstance();
-
-        // Inicializamos DatabaseReference para poder leer los datos de Firebase de un objeto concreto de momento.
-        databaseRef = FirebaseDatabase.getInstance().getReference().child("warframes/002");;
-
         logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(context, LoginActivity.class);
-                context.startActivity(myIntent);
+            public void onClick(View v) {
+
+                Intent loginIntent = new Intent(DetailActivity.this, LoginActivity.class);
+                startActivity(loginIntent);
+                finish();
             }
         });
-
-        // Configuramos un listener para obtener datos en tiempo real de la base de datos.
-        databaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //  Se ejecuta cuando se obtienen datos de la base de datos. Los datos se devuelven como un objeto DataSnapshot
-                if (dataSnapshot.exists()) {
-                    // Obtenemos los valores de "name", "description" e "image" desde la base de datos.
-                    String title = dataSnapshot.child("name").getValue(String.class);
-                    String description = dataSnapshot.child("description").getValue(String.class);
-                    String imageUrl = dataSnapshot.child("image").getValue(String.class);
-
-                    // Actualizamos la interfaz de usuario con los datos obtenidos.
-                    titleTextView.setText(title);
-                    descriptionTextView.setText(description);
-                    // Usamos Glide para cargar la imagen desde la URL proporcionada en la base de datos.
-                    Glide.with(context).load(imageUrl).into(imageView);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(context, "Error al cargar datos", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
     }
 }

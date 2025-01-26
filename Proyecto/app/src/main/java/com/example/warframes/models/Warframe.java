@@ -4,7 +4,7 @@ public class Warframe {
     public String id;
     public String name;
     public String description;
-    public String url;
+    public String image;
 
 
     // Constructor vacío necesario para Firebase
@@ -15,7 +15,7 @@ public class Warframe {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.url = url;
+        this.image = url;
     }
 
     public String getId() {
@@ -28,7 +28,7 @@ public class Warframe {
         return description;
     }
     public String getUrl() {
-        return url;
+        return image;
     }
 
 }

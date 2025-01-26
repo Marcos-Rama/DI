@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class LoginActivity extends AppCompatActivity {
     private Context context = this;
     private FirebaseAuth mAuth;
+    //ViewModel para la lógica de inicio de sesión
     private LoginViewModel viewModel;
 
     @Override
@@ -26,7 +27,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //Inicializa el viewModel
         viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+
+        //Establece los obversadores para eventos
         setupObservers();
 
         Button registerButton = findViewById(R.id.registerButton);
@@ -43,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+    //Método para configurar los observadores de envtos
     private void setupObservers() {
         viewModel.getErrorMessage().observe(this, message -> {
             if (message != null) {
@@ -58,17 +63,23 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
     private void loginUser() {
+        //Obtiene referencias de los datos necesarios para el login
         EditText emailEditText = findViewById(R.id.emailEditText);
         EditText passwordEditText = findViewById(R.id.passwordEditText);
 
+        //Comprueba que existen esos elementos en la UI
         if (emailEditText == null || passwordEditText == null) {
             Toast.makeText(this, "Error: Elementos de la UI no encontrados", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        //Obtiene los valores desde los elementos previos
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
+
+        //Llama al método del viewModel para iniciar sesión
         viewModel.loginUser(email, password);
     }
 }

@@ -17,6 +17,7 @@ public class UserRepository {
         productRef = FirebaseDatabase.getInstance().getReference();
     }
 
+    //Métodos par registrar, guardar datos y logear al usuario
 
     public Task<AuthResult> registerUser(String email, String password) {
         return firebaseAuth.createUserWithEmailAndPassword(email, password);

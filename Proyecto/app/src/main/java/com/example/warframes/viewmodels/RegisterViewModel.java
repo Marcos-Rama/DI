@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModel;
 import com.example.warframes.models.User;
 import com.example.warframes.repositories.UserRepository;
 
+
+//Casi lo mismo que LoginViewModel pero para el registro
+
 public class RegisterViewModel extends ViewModel {
     private final UserRepository repository;
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
