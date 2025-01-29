@@ -21,7 +21,7 @@ import com.example.warframes.viewmodels.DetailViewModel;
 public class DetailActivity extends AppCompatActivity {
     private ActivityDetailBinding binding;
     private DetailViewModel viewModel;
-    private String warframeId;
+    private String warframeName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +33,10 @@ public class DetailActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(DetailViewModel.class);
 
 
-        warframeId = getIntent().getStringExtra("id");
-        Log.d("DetailActivity", "warframeId obtenido del Intent: " + warframeId);
-        if (warframeId != null) {
-            viewModel.checkIsFavorite(warframeId);
+        warframeName = getIntent().getStringExtra("name");
+        Log.d("DetailActivity", "warframeId obtenido del Intent: " + warframeName);
+        if (warframeName != null) {
+            viewModel.checkIsFavorite(warframeName);
         } else {
             Log.e("DetailActivity", "warframeId es null al recibir el Intent");
         }
@@ -75,6 +75,15 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void setupFavoriteButton() {
+        viewModel.getIsFavorite().observe(this, isFavorite -> {
+            if (isFavorite != null) {
+                if (isFavorite) {
+                    binding.favFavorite.setImageResource(R.drawable.si_fav); // Corazón favorito
+                } else {
+                    binding.favFavorite.setImageResource(R.drawable.no_fav); // Corazón NO favorito
+                }
+            }
+        });
         binding.favFavorite.setOnClickListener(v -> {
             String warframeName = getIntent().getStringExtra("name");
             if (warframeName != null) {

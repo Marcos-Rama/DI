@@ -43,12 +43,12 @@ public class FavoriteRepository {
                 if (task.getResult().exists()) {
                     // Eliminar favorito si ya está
                     userFavoritesRef.removeValue()
-                            .addOnSuccessListener(aVoid -> listener.onSuccess())
+                            .addOnSuccessListener(aVoid -> listener.onSuccess(false))
                             .addOnFailureListener(listener::onError);
                 } else {
                     // Añadir favorito
                     userFavoritesRef.setValue(true)
-                            .addOnSuccessListener(aVoid -> listener.onSuccess())
+                            .addOnSuccessListener(aVoid -> listener.onSuccess(true))
                             .addOnFailureListener(listener::onError);
                 }
             } else {
@@ -100,7 +100,7 @@ public class FavoriteRepository {
     }
 
     public interface OnFavoriteToggleListener {
-        void onSuccess();
+        void onSuccess(boolean newFavoriteStatus);
         void onError(Exception e);
     }
 }

@@ -38,7 +38,8 @@ public class DetailViewModel extends ViewModel {
         Log.d("DetailViewModel", "Intentando agregar/quitar favorito para el nombre: " + warframeName);
         repository.toggleFavorite(warframeName, new FavoriteRepository.OnFavoriteToggleListener() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(boolean newFavoriteStatus) {
+                isFavorite.setValue(newFavoriteStatus); // Actualiza el botón
                 Log.d("Favorite", "Estado del favorito actualizado con éxito");
             }
 
