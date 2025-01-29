@@ -48,13 +48,20 @@ public class FavoriteViewModel extends ViewModel {
         List<String> names = warframeName.getValue();
         List<Warframe> warframes = allWarframes.getValue();
 
-        if (names != null && warframes != null) {
-            List<Warframe> favorites = new ArrayList<>();
-            for (Warframe warframe : warframes) {
-                if (names.contains(warframe.getName())) {
-                    favorites.add(warframe);
-                }
+        // Si una de las listas es nula, no hagas nada hasta que ambas tengan datos
+        if (names == null || warframes == null) {
+            return;
+        }
+
+        List<Warframe> favorites = new ArrayList<>();
+        for (Warframe warframe : warframes) {
+            if (names.contains(warframe.getName())) {
+                favorites.add(warframe);
             }
+        }
+
+        // 🔹 Solo actualiza si hay cambios
+        if (!favorites.equals(favoriteWarframes.getValue())) {
             favoriteWarframes.setValue(favorites);
         }
     }
