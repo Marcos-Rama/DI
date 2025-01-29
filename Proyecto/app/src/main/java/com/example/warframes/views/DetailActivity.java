@@ -10,29 +10,36 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.example.warframes.R;
 import com.example.warframes.databinding.ActivityDetailBinding;
+import com.example.warframes.viewmodels.DetailViewModel;
 
 
 public class DetailActivity extends AppCompatActivity {
-    private static final String TAG = "DetailActivity";
+    private ActivityDetailBinding binding;
+    private DetailViewModel viewModel;
+    private String warframeId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Para comprobar fallos que puedan dar, no es necesario para la funcionalidad
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            Log.d("DetailActivity", "Name: " + extras.getString("name"));
-            Log.d("DetailActivity", "Description: " + extras.getString("description"));
-            Log.d("DetailActivity", "URL: " + extras.getString("url"));
-        } else {
-            Log.e("DetailActivity", "No extras found in intent");
-        }
 
         //Configura el binding para la vista
-        ActivityDetailBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
+
+        viewModel = new ViewModelProvider(this).get(DetailViewModel.class);
+
+
+        warframeId = getIntent().getStringExtra("id");
+        Log.d("DetailActivity", "warframeId obtenido del Intent: " + warframeId);
+        if (warframeId != null) {
+            viewModel.checkIsFavorite(warframeId);
+        } else {
+            Log.e("DetailActivity", "warframeId es null al recibir el Intent");
+        }
 
         //Extra los datos del intent
         String name = getIntent().getStringExtra("name");
@@ -41,15 +48,15 @@ public class DetailActivity extends AppCompatActivity {
 
         //Valida que los datos necesarios no estén vacíos
         if (name == null || description == null || url == null) {
-            Log.e(TAG, "Datos incompletos del Warframe");
             Toast.makeText(this, "Error al cargar los datos", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
+
         //Establece-vincula los datos en los elementos de la vista
         binding.titleTextView.setText(name);
         binding.descriptionTextView.setText(description);
-        Glide.with(this).load(url).into(binding.imageView); //Glide necesario para mostrar una imagen
+        Glide.with(this).load(url).into(binding.imageView);
 
         //Configuración de la función del botón de Logout
         Button logOutButton = findViewById(R.id.logOutButton);
@@ -60,6 +67,22 @@ public class DetailActivity extends AppCompatActivity {
                 Intent loginIntent = new Intent(DetailActivity.this, LoginActivity.class);
                 startActivity(loginIntent);
                 finish();
+            }
+        });
+
+        setupFavoriteButton();
+
+    }
+
+    private void setupFavoriteButton() {
+        binding.favFavorite.setOnClickListener(v -> {
+            String warframeName = getIntent().getStringExtra("name");
+            if (warframeName != null) {
+                Log.d("DetailActivity", "Botón de favoritos pulsado, Warframe Name: " + warframeName);
+                // Llamada a toggleFavorite en ViewModel con el name
+                viewModel.toggleFavorite(warframeName);
+            } else {
+                Log.e("DetailActivity", "warframeName es null al hacer clic en favoritos");
             }
         });
     }

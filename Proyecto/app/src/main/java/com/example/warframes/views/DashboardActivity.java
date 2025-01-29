@@ -2,6 +2,7 @@ package com.example.warframes.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.content.Context;
@@ -31,10 +32,12 @@ public class DashboardActivity extends AppCompatActivity {
         //Configura el binding para la vista del dashboard
         ActivityDashboardBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard);
 
+
         Button logOutButton = findViewById(R.id.logOutButtonMain);
 
         //Crea el adapter con un listener para poder hacer click
         warframeAdapter = new WarframeAdapter(new ArrayList<>(), warframe -> {
+            Log.d("DashboardActivity", "warframeId: " + warframe.getId());
             //Crea un intent para la pantalla details (luego DetailActivity lo obtendrá de aqui)
             Intent intent = new Intent(this, DetailActivity.class);
             intent.putExtra("id", warframe.getId());
@@ -60,6 +63,10 @@ public class DashboardActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(context, LoginActivity.class);
                 context.startActivity(myIntent);
             }
+        });
+        binding.toFavorites.setOnClickListener(v -> {
+            Intent intent = new Intent(this, FavoritesActivity.class);
+            startActivity(intent);
         });
     }
 }
