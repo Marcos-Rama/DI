@@ -1,6 +1,7 @@
 package com.example.warframes.views;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.Button;
 import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.warframes.R;
 import com.example.warframes.adapters.WarframeAdapter;
 import com.example.warframes.databinding.ActivityDashboardBinding;
+import com.example.warframes.utils.ThemeSharedPreferences;
 import com.example.warframes.viewmodels.DashboardViewModel;
 
 import java.util.ArrayList;
@@ -25,15 +28,29 @@ public class DashboardActivity extends AppCompatActivity {
     //Adapter para el recycler
     private WarframeAdapter warframeAdapter;
     private Context context = this;
+    private Button themeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Aplicar el modo que esté establecido
+        SharedPreferences preferences = getSharedPreferences("settings", MODE_PRIVATE);
+        boolean isDarkMode = preferences.getBoolean("dark_mode", false);
+
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
         super.onCreate(savedInstanceState);
         //Configura el binding para la vista del dashboard
         ActivityDashboardBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard);
 
-
         Button logOutButton = findViewById(R.id.logOutButtonMain);
+
+        //Botón para modo oscuro/claro
+        themeButton = findViewById(R.id.themeButton);
+        updateThemeButtonText(isDarkMode);
+        themeButton.setOnClickListener(v -> toggleTheme(themeButton));
 
         //Crea el adapter con un listener para poder hacer click
         warframeAdapter = new WarframeAdapter(new ArrayList<>(), warframe -> {
@@ -68,5 +85,31 @@ public class DashboardActivity extends AppCompatActivity {
             Intent intent = new Intent(this, FavoritesActivity.class);
             startActivity(intent);
         });
+
+
+    }
+
+    private void toggleTheme(Button button) {
+        // Obtener el modo actual desde SharedPreferences
+        SharedPreferences preferences = getSharedPreferences("settings", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        //Cambiar al modo noche automaticamente
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            editor.putBoolean("dark_mode", true);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            editor.putBoolean("dark_mode", false);
+        }
+        editor.apply();
+    }
+    private void updateThemeButtonText(boolean isDarkMode) {
+        // Cambiar el texto del botón según el modo
+        if (isDarkMode) {
+            themeButton.setText("Modo Claro");
+        } else {
+            themeButton.setText("Modo Oscuro");
+        }
     }
 }

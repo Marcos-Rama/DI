@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black">
+       >
 
         <Button
             android:id="@+id/logOutButtonMain"
@@ -14,8 +14,6 @@
             android:layout_height="wrap_content"
             android:text="Logout"
             android:contentDescription="Cerrar sesión"
-            android:backgroundTint="@color/white"
-            android:textColor="@color/black"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintTop_toTopOf="parent"
