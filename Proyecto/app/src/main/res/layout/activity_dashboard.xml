@@ -38,6 +38,8 @@
             app:srcCompat="@drawable/si_fav"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:strokeWidth="2dp"
+            app:strokeColor="?attr/colorOnBackground"
             />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

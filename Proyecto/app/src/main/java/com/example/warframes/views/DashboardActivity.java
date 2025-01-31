@@ -86,7 +86,6 @@ public class DashboardActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-
     }
 
     private void toggleTheme(Button button) {
