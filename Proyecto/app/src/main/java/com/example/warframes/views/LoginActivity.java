@@ -1,6 +1,7 @@
 package com.example.warframes.views;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,9 +10,11 @@ import android.widget.Toast;
 import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.warframes.R;
+import com.example.warframes.utils.ThemeSharedPreferences;
 import com.example.warframes.viewmodels.LoginViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -24,8 +27,18 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        SharedPreferences preferences = getSharedPreferences("settings", MODE_PRIVATE);
+        boolean isDarkMode = preferences.getBoolean("dark_mode", false);
+        // Aplicar el tema según la preferencia
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
 
         //Inicializa el viewModel
         viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
@@ -82,4 +95,5 @@ public class LoginActivity extends AppCompatActivity {
         //Llama al método del viewModel para iniciar sesión
         viewModel.loginUser(email, password);
     }
+
 }

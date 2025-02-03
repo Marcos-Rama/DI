@@ -10,8 +10,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Warframes"
-        tools:targetApi="31">
+        android:theme="@style/AppThemeDay"
+        tools:targetApi="31"
+        >
+        <activity
+            android:name=".views.FavoritesActivity"
+            android:exported="false" />
         <activity
             android:name=".views.DetailActivity"
             android:exported="false" />
