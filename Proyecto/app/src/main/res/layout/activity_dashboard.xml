@@ -16,6 +16,7 @@
             android:contentDescription="Cerrar sesión"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:backgroundTint="?attr/colorOnBackground"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -25,6 +26,7 @@
             android:layout_height="wrap_content"
             android:text="Cambiar modo"
             android:layout_marginEnd="5dp"
+            android:backgroundTint="?attr/colorOnBackground"
             app:layout_constraintTop_toTopOf="@+id/logOutButtonMain"
             app:layout_constraintEnd_toStartOf="@+id/logOutButtonMain"/>
 
@@ -39,7 +41,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:strokeWidth="2dp"
-            app:strokeColor="?attr/colorOnBackground"
+            android:backgroundTint="?attr/colorOnBackground"
             />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

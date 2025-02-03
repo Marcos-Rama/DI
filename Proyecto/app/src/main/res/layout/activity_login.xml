@@ -60,6 +60,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="50dp"
         android:text="Register"
+        android:backgroundTint="?attr/colorOnBackground"
         android:contentDescription="Registrar usuario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditText"  />
@@ -71,6 +72,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginStart="50dp"
         android:text="Login"
+        android:backgroundTint="?attr/colorOnBackground"
         android:contentDescription="Iniciar sesión"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditText"  />
