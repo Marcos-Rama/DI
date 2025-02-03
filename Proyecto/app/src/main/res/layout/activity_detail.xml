@@ -63,6 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:backgroundTint="?attr/colorOnBackground"
+            app:tint="?attr/colorOnPrimary"
             android:contentDescription="Añadir / Quitar favorito"
             app:srcCompat="@drawable/no_fav"
             app:layout_constraintTop_toTopOf="parent"

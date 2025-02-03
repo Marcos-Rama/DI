@@ -42,6 +42,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:strokeWidth="2dp"
             android:backgroundTint="?attr/colorOnBackground"
+            app:tint="?attr/colorOnPrimary"
             />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
