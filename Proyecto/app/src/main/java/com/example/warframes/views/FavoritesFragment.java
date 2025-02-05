@@ -2,6 +2,7 @@ package com.example.warframes.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,12 +38,20 @@ public class FavoritesFragment extends Fragment {
 
         // Configurar el Adapter con listener para clics
         adapter = new WarframeAdapter(new ArrayList<>(), warframe -> {
-            Intent intent = new Intent(requireContext(), DetailActivity.class);
-            intent.putExtra("id", warframe.getId());
-            intent.putExtra("name", warframe.getName());
-            intent.putExtra("description", warframe.getDescription());
-            intent.putExtra("url", warframe.getUrl());
-            startActivity(intent);
+            Log.d("DashboardFragment", "warframeId: " + warframe.getId());
+
+            // Crear una nueva instancia de DetailFragment con los datos
+            DetailFragment detailFragment = DetailFragment.newInstance(
+                    warframe.getName(),
+                    warframe.getDescription(),
+                    warframe.getUrl()
+            );
+
+            // Realizar la transacción de fragmento
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, detailFragment)  // Asegúrate de que "container" es el contenedor donde se añadirá el fragmento
+                    .addToBackStack(null)  // Opcional: Agrega el fragmento a la pila de retroceso
+                    .commit();
         });
 
         // Configurar RecyclerView

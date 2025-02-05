@@ -30,16 +30,24 @@ public class DashboardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dashboard_fragment, container, false);
-        Log.d("DashboardFragment","Inflando fragment");
+        Log.d("DashboardFragment", "Inflando fragment");
+
         // Configurar el adapter
         warframeAdapter = new WarframeAdapter(new ArrayList<>(), warframe -> {
             Log.d("DashboardFragment", "warframeId: " + warframe.getId());
-            Intent intent = new Intent(requireActivity(), DetailActivity.class);
-            intent.putExtra("id", warframe.getId());
-            intent.putExtra("name", warframe.getName());
-            intent.putExtra("description", warframe.getDescription());
-            intent.putExtra("url", warframe.getUrl());
-            startActivity(intent);
+
+            // Crear una nueva instancia de DetailFragment con los datos
+            DetailFragment detailFragment = DetailFragment.newInstance(
+                    warframe.getName(),
+                    warframe.getDescription(),
+                    warframe.getUrl()
+            );
+
+            // Realizar la transacción de fragmento
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, detailFragment)  // Asegúrate de que "container" es el contenedor donde se añadirá el fragmento
+                    .addToBackStack(null)  // Opcional: Agrega el fragmento a la pila de retroceso
+                    .commit();
         });
 
         // Configurar RecyclerView
@@ -60,5 +68,4 @@ public class DashboardFragment extends Fragment {
 
         return view;
     }
-
 }

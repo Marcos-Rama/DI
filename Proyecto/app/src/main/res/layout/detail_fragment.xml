@@ -9,18 +9,6 @@
         android:layout_height="match_parent"
         tools:context=".views.DetailActivity">
 
-
-        <Button
-            android:id="@+id/logOutButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Logout"
-            android:backgroundTint="?attr/colorOnBackground"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"/>
-
         <TextView
             android:id="@+id/titleTextView"
             android:layout_width="wrap_content"
@@ -28,7 +16,7 @@
             android:layout_marginTop="40dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logOutButton"
+            app:layout_constraintTop_toTopOf="parent"
             android:text="Nombre"
             android:textColor="?attr/colorOnBackground"
             android:textStyle="bold"
