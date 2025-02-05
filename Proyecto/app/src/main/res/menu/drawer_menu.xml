@@ -14,9 +14,6 @@
             android:id="@+id/nav_profile"
             android:title="Perfil" />
         <item
-            android:id="@+id/nav_mode"
-            android:title="Modo oscuro" />
-        <item
             android:id="@+id/nav_logout"
             android:title="Cerrar Sesión" />
 

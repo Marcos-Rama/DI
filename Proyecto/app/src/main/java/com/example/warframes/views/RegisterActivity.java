@@ -1,6 +1,7 @@
 package com.example.warframes.views;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,8 +26,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        SharedPreferences preferences = getSharedPreferences("settings", MODE_PRIVATE);
-        boolean isDarkMode = preferences.getBoolean("dark_mode", false);
+        SharedPreferences preferences = getSharedPreferences("AppConfig", Context.MODE_PRIVATE);
+        boolean isDarkMode = preferences.getBoolean("darkMode", false);
 
         // Aplicar el tema según la preferencia
         if (isDarkMode) {
