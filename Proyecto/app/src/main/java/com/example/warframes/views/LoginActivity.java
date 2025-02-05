@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         viewModel.getLoginSuccess().observe(this, success -> {
             if (success) {
                 Toast.makeText(this, "Login exitoso", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, DashboardActivity.class));
+                startActivity(new Intent(this, MainActivity.class));
                 finish();
             }
         });
