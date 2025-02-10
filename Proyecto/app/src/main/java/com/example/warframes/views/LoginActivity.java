@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.warframes.R;
-import com.example.warframes.utils.ThemeSharedPreferences;
 import com.example.warframes.viewmodels.LoginViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 

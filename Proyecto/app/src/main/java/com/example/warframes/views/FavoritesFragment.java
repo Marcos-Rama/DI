@@ -29,8 +29,7 @@ public class FavoritesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.favorites_fragment, container, false);
-        FavoritesFragmentBinding binding = DataBindingUtil.bind(view);
+        FavoritesFragmentBinding binding = FavoritesFragmentBinding.inflate(inflater, container, false);
 
         if (binding == null) {
             throw new IllegalStateException("Error al inflar fragment_favorites");
@@ -62,8 +61,7 @@ public class FavoritesFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(FavoriteViewModel.class);
         viewModel.getFavoriteWarframes().observe(getViewLifecycleOwner(), warframes -> adapter.setWarframe(warframes));
 
-
-        return view;
+        return binding.getRoot();
     }
 }
 
