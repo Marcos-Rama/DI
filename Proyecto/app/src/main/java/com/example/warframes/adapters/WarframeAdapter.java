@@ -33,6 +33,7 @@ public class WarframeAdapter extends RecyclerView.Adapter<WarframeAdapter.Warfra
     public void setWarframe(List<Warframe> warframes) {
         this.warframes = warframes;
         notifyDataSetChanged();
+
     }
 
     //Esta parte define una vista para cada elemento de la lista

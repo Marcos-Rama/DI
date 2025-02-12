@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.warframes.R;
-import com.example.warframes.utils.ThemeSharedPreferences;
 import com.example.warframes.viewmodels.LoginViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -28,8 +27,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        SharedPreferences preferences = getSharedPreferences("settings", MODE_PRIVATE);
-        boolean isDarkMode = preferences.getBoolean("dark_mode", false);
+        SharedPreferences preferences = getSharedPreferences("AppConfig", Context.MODE_PRIVATE);
+        boolean isDarkMode = preferences.getBoolean("darkMode", false);
         // Aplicar el tema según la preferencia
         if (isDarkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -71,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
         viewModel.getLoginSuccess().observe(this, success -> {
             if (success) {
                 Toast.makeText(this, "Login exitoso", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, DashboardActivity.class));
+                startActivity(new Intent(this, MainActivity.class));
                 finish();
             }
         });
